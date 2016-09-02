@@ -1,36 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {Sparklines, SparklinesLine, SparklinesReferenceLine} from 'react-sparklines';
 
-import {cityWeather} from '../actions/index';
+import { cityWeather } from '../actions/index';
+import GoogleMap from '../components/google_map';
 
 class City extends React.Component {
-    renderWeather(cityData) {
-        console.log(cityData.city.name);
-    }
-    getData() {
+    componentWillMount() {
         this.props.cityWeather(this.props.params.city);
     }
 
     render() {
-        console.log(this.props.selectedCity);
+        const { selectedCity } = this.props;
+        if (!selectedCity) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            )
+        }
+
+        const { lon, lat } = selectedCity.city.coord;
         return (
-            <div>
-                Hi {this.props.params.city}
-                <table className="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>City</th>
-                        <th>Temperature (K)</th>
-                        <th>Pressure (hPa)</th>
-                        <th>Humidity (%)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderWeather(this.props.selectedCity)}
-                    </tbody>
-                </table>
+            <div className="row">
+                <div className="col-md-6 offset-md-3">
+                    <div className="card text-xs-center">
+                        <div className="card-block">
+                            <h4 className="card-title">{selectedCity.city.name}</h4>
+                        </div>
+                        <div className="card-block gmap">
+                            <GoogleMap lon={lon} lat={lat} />
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -41,7 +43,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {selectedCity: state.selectedCity};
+    return {selectedCity: state.weather.city};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);

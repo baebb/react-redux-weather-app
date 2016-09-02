@@ -32,6 +32,7 @@ class WeatherList extends React.Component {
     }
 
     render() {
+        console.log(this.props.weather);
         return (
             <table className="table table-hover">
                 <thead>
@@ -51,7 +52,7 @@ class WeatherList extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {weather: state.weather};
+    return {weather: state.weather.all};
 }
 
 export default connect(mapStateToProps)(WeatherList);
