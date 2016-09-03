@@ -31,6 +31,7 @@
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
+    "react-google-maps": "^4.7.1",
     "react-redux": "*",
     "react-router": "*",
     "react-sparklines": "*",
